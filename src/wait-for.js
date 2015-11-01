@@ -28,7 +28,7 @@ module.exports = function waitFor(conditionFn, options) {
     options = {};
   }
 
-  timeout = options.timeout || 1000;
+  timeout = 'timeout' in options ? options.timeout : 1000;
   errorMsg = options.errorMsg || 'Timeout';
 
   return conditionFn()
@@ -42,10 +42,10 @@ module.exports = function waitFor(conditionFn, options) {
       delay = new Date().getTime() - start;
       remaining = timeout - delay;
 
-      if (delay < 0) {
+      if (remaining <= 0) {
         throw new Error(errorMsg);
       }
 
-      return waitFor(conditionFn, remaining);
+      return waitFor(conditionFn, { timeout: remaining, errorMsg: errorMsg });
     });
 };

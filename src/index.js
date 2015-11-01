@@ -26,6 +26,8 @@ function Driver(options) {
 
 module.exports = Driver;
 
+Driver.waitFor = waitFor;
+
 /**
  * Select an element at a given path as described by the `selectors.json` file.
  *
